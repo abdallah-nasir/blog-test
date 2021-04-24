@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+        
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="post blog-post col-lg-8"> 
+          <div class="container">
+            <div class="post-single">
+              <div id="post-image" class="post-thumbnail"><img src="{{posts.image.url}}" alt="{{posts.title}}" class="img-fluid"></div>
+              <div class="post-details">
+                <div class="post-meta d-flex justify-content-between">
+                  <div class="category">
+                      {% if request.user.id == posts.user.id %}
+                    <div class='row'>
+                      <button  data-bs-toggle="modal" data-bs-target="#static-1{{posts.id}}" class="btn btn-link" >update</button>
+                      <button  data-bs-toggle="modal" data-bs-target="#static-2{{posts.id}}" class="btn btn-link" >Delete</button>
+                    </div>
+                      {% endif %}
+                      
+                    {% for i in posts.category.all|slice:"0:3" %}
+                    <a href="#">{{i.title}}</a>
+                  {% endfor %}
+                  <h1>{{posts.title}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1> 
+
+              <a href="{% url 'home:post-vote-up' id=posts.id %}"><i {% if votes.vote_up %} id="vote-up"  {% endif %} class="fas fa-arrow-up"></i></a>
+                     <p class="lead">{{posts.votes}}</p>
+                <a href="{% url 'home:post-vote-down' id=posts.id %}"><i {% if votes.vote_down %}  id="vote-down"  {% endif %} class="fas fa-arrow-down"></i>  </a>  
+
+                <div class="row">
+
+      <div class="post-footer d-flex  flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
+    
+        <div id="blog-avatar" class="avatar"><img src="{{posts.user.author.image.url}}" alt="..." class="img-fluid"></div>
+      
+
+          <div class="title"><span>{{posts.user.get_full_name}}</span></div></a>
+        <div class="d-flex align-items-center flex-wrap">       
+          <div class="date"><i class="icon-clock"></i> {{posts.timestamp|timesince}} ago</div>
+          <div class="views"><i class="icon-eye"></i> {{posts.view_count}}</div>
+          <div class="comments meta-last"><i class="icon-comment"></i>{{posts.comments.count}}</div>
+        </div>
+      </div>  
+    </div>
+              
+              </div>
+            </div>
+
+
+             <!-- Modal update -->
+             <div class="modal fade" id="static-1{{posts.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update Post</h5>
+                    <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                       <i class="fas fa-times close"></i>
+                    </a>
+                     
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                  are you sure you want to update this post ??
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a type="button"  href="{% url 'home:update' id=posts.id %}" class="btn btn-primary">Submit
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal delete -->
+            <div class="modal fade" id="static-2{{posts.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Delete Post</h5>
+                    <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      <i class="fas fa-times close"></i>
+                   </a>
+                  </div>
+                  <div class="modal-body">
+                  are you sure you want to delete this post ??
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a type="button"  href="{% url 'home:delete' id=posts.id %}" class="btn btn-primary">Submit
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>    
+
+
+                <div class="post-body">
+                  {{posts.overviews|safe}}
+                </div>
+                <div class="post-tags">
+                  {% for i in posts.tags.all %}
+                  <a href="#" class="tag">#{{i}}</a>
+                  {% endfor %}
+                </div>
+                <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
+
+                    {% if similar %}
+                    {% for sim in similar|slice:"0:2" %}
+                    {% if forloop.first %}
+                  <a href="{{sim.get_absolute_url}}" class="prev-post text-left d-flex align-items-center">
+                  <div class="icon prev"><i class="fa fa-angle-left"></i></div>
+                    <div class="text"><strong class="text-primary">Previous Post </strong>
+                      <h6>{{sim.title}}</h6>
+                    </div></a>
+                    {% else %}
+                    <a href="{{sim.get_absolute_url}}" class="next-post text-right d-flex align-items-center justify-content-end">
+                      <div class="text"><strong class="text-primary">Next Post </strong>
+                        <h6>{{sim.title}}</h6>
+                      </div>
+                      <div class="icon next"><i class="fa fa-angle-right">   </i></div></a>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if posts.next_post %}
+        
+                  {% endif %}
+
+                  </div>
+                <div class="post-comments">
+                  <header>
+                    <h3 class="h6">Post Comments<span class="no-of-comments">({{posts.comments.count}})</span></h3>
+                  </header>
+           
+                  {% for comment in comments %}
+                  <div id="post_comments" class="comment">
+                    <div  class="comment-header d-flex justify-content-between">
+                      <div class="user d-flex align-items-center">
+                       
+                        <div class="image"><img src="{{comment.user.author.image.url}}" alt={{comment.user.first_name}} class="img-fluid rounded-circle"></div>
+     
+                        <div class="title"><strong>{{comment.user.first_name}} {{comment.user.last_name}}</strong><span class="date">{{comment.timestamp|date:"d M Y"}},{{comment.timestamp|timesince}} ago</span></div>
+                       
+                        
+                      </div>
+                    </div>
+                   
+                    <div class="comment-body">
+                      <p>{{comment.content}}</p>  
+                     
+                     
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{comment.id}}" aria-expanded="false" aria-controls="collapse{{comment.id}}">
+                        reply
+                      </button>
+                      
+                      <div class="collapse" id="collapse{{comment.id}}">
+                        <h3>replies</h3>
+                        
+                       {% if comment.replies.all %}
+
+                       {% for i in comment.replies.all %}
+                          <blockquote  class="blockquote">
+
+                            <div class="comment-header d-flex justify-content-between">
+                              <div class="user d-flex align-items-center">
+                                <div class="image"><img src="{{i.user.author.image.url}}" alt={{comment.user}} class="img-fluid rounded-circle"></div>
+                                <div class="title"><strong>{{i.user.first_name}} {{i.user.last_name}}</strong><span class="date">{{i.timestamp|date:"d M Y"}},{{i.timestamp|timesince}} ago</span></div>
+                                        </div>
+                                    </div> 
+                                    <p id="post-p" class="mb-0 ml-5 pl-2">{{i.content}}</p>
+
+                              
+                          </blockquote>
+                          {% endfor %}
+                          {% else %}
+                          <blockquote class="blockquote">
+                            <p class="mb-0">No Replies Yet</p>
+                          </blockquote>
+                          {% endif %}
+
+                    {% if request.user.is_authenticated %}  
+                        <form method="POST">
+                          {% csrf_token %}
+                        <div class="form-group col-md-6">
+                          <textarea class="form-control" placeholder="reply to Comment" name="content" rows="2" col="1"></textarea>
+                          <input type="hidden" name="reply_id"  value="{{comment.id}}">                        </div>
+                        <div class="form-group col-md-12">
+                          <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                        </div>
+                        </form>
+                  {% else %}
+                   <a href="{% url 'account_login' %}?next={{posts.get_absolute_url}}">login to reply to this comment</a>
+                   {% endif %}
+                      </div>
+                    </div>
+                       
+                        </div>
+                   {% endfor %}
+                </div>
+             
+
+                <div  class="add-comment">
+                  <header>
+                    <h3 class="h6">Leave a comment</h3>
+                  </header>
+                  <!--  -->
+                  <form  method="POST"  {% if not request.user.is_authenticated %} action="{% url 'account_login' %}?next={{posts.get_absolute_url}}" {% else %}  action="{{account_login}}" {% endif %} id="comment-form" class="commenting-form">
+                   {% csrf_token %}
+                 
+                 
+                    <div class="row">       
+                      <div  class="form-group col-md-12">
+                        <textarea id="form_content" name="content" placeholder="Type your comment" class="form-control"></textarea>
+                      </div>
+                      <div class="form-group col-md-12">
+                        <button type="submit"  value="submit" class="btn btn-secondary">Submit Comment</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <aside class="col-lg-4">
+          <!-- Widget [Search Bar Widget]-->
+          <div class="widget search">
+            <header>
+              <h3 class="h6">Search the blog</h3>
+            </header>
+            <form action="{% url 'home:search' %}" class="search-form">
+            
+              <div class="form-group">
+                <input type="search" name="q" placeholder="search posts,tags and categories...">
+                <button type="submit" class="submit"><i class="icon-search"></i></button>
+              </div>
+            </form>
+          </div>
+          {% if similar %}
+          <!-- Similar Posts       -->
+          <div class="widget latest-posts">
+            <header>
+              <h3 class="h6">Similar Posts</h3>
+            </header>
+            {% for post in similar %}
+            <div class="blog-posts"><a href="{{post.get_absolute_url}}">
+                <div class="item d-flex align-items-center">
+                  <div class="image"><img src="{{post.image.url}}" alt="..." class="img-fluid"></div>
+                  <div class="title"><strong>{{post.title}}</strong>
+                    <div class="d-flex align-items-center">
+                      <div class="views"><i class="icon-eye"></i> {{post.view_count}}</div>
+                      <div class="comments"><i class="icon-comment"></i>{{post.comments.count}}</div>
+                    </div>
+                  </div>
+                </div></a><a href="{{post.get_absolute_url}}"></a>
+            </div>
+              {% endfor %}
+          </div>
+          <!--Similar Posts -->
+          {% endif %}
+          <div class="widget categories">
+            <header>
+              <h3 class="h6">Categories</h3>
+            </header>
+            {% for cat in category_count %}
+            <div class="item d-flex justify-content-between"><a href="#">{{cat.category__title}}</a><span>{{cat.category__count}}</span></div>
+              {% endfor %}
+          </div>
+          <div class="widget latest-posts">
+            <header>
+              <h3 class="h6">latest Posts</h3>
+            </header>
+            {% for post in latest %}
+            <div class="blog-posts"><a href="{{post.get_absolute_url}}">
+                <div class="item d-flex align-items-center">
+                  <div class="image"><img src="{{post.image.url}}" alt="..." class="img-fluid"></div>
+                  <div class="title"><strong>{{post.title}}</strong>
+                    <div class="d-flex align-items-center">
+                      <div class="views"><i class="icon-eye"></i> {{post.view_count}}</div>
+                      <div class="comments"><i class="icon-comment"></i>{{post.comments.count}}</div>
+                    </div>
+                  </div>
+                </div></a><a href="{{post.get_absolute_url}}"></a>
+            </div>
+              {% endfor %}
+          </div>
+          <!-- Widget [Tags Cloud Widget]-->
+          <!-- <div class="widget tags">       
+            <header>
+              <h3 class="h6">Tags</h3>
+            </header>
+            <ul class="list-inline">
+             
+              <li class="list-inline-item"><a href="#" class="tag">#Business</a></li>
+  
+            </ul>
+          </div> -->
+        </aside>
+      </div>
+    </div>
+
+   {% endblock %}

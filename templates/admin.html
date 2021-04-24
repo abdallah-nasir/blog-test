@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container m-5">
+<div class="row">
+    <div class="col">
+<h1>Admin</h1>
+<h3>Posts</h3>
+
+
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">posts</th>
+         <th scope="col">post view</th>
+        <th scope="col">post action</th>
+        <th scope="col">user</th>
+        <th scope="col">user action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{post.title}}</td>
+        <td><a href="{{post.get_absolute_url}}">view post</a></td>
+        <td>
+          <a href="{% url 'home:admin-update' id=post.id %}">update</a>
+          <a href="{% url 'home:admin-delete' id=post.id %}">delete</a>
+        </td>
+        <td>{{post.user.first_name}}</td>
+        <td><a href="{% url 'home:admin-user-delete' id=post.user.id %}">delete user</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

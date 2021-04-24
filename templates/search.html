@@ -1,0 +1,110 @@
+
+  {% extends "base.html" %}
+  {% load static %}
+  
+    
+    {% block content %}
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="posts-listing col-lg-8"> 
+          <div class="container">
+            <div class="row">
+              <!-- post -->
+              {% if qs %}
+              <div class="col col-lg-12">
+                <h2>search results for "{{request.GET.q}}"</h2>
+              </div>
+              {% for post in qs %}
+              <div class="post col-xl-6">
+                <div class="post-thumbnail"><a href="{{post.get_absolute_url}}"><img src="{{post.image.url}}"  alt="..." class="img-fluid"></a></div>
+                <div id="blog-img" class="post-details">
+                  <div class="post-meta d-flex justify-content-between">
+                    <div class="date meta-last">{{post.timestamp|date:"d M"}}| {{post.timestamp|date:"Y"}}</div>
+                    <div class="category">
+                      {% for i in post.category.all|slice:"0:2" %}
+                      <a href="{{post.get_absolute_url}}">{{i.title}}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <a href="{{post.get_absolute_url}}">
+                    <h3 class="h4">{{post.title}}</h3></a>
+                  <p class="text-muted">{{post.overviews|truncatewords_html:10|safe}}</p>
+                  <footer class="post-footer d-flex align-items-center"><a href="{{post.get_absolute_url}}" class="author d-flex align-items-center flex-wrap">
+      
+                    <div id="blog-avatar" class="avatar"><img src="{{post.user.author.image.url}}" alt="..." class="img-fluid"></div>
+                
+                    <div class="title"><span>{{post.user.first_name}} {{post.user.last_name}}</span></div></a>
+                    <div class="date"><i class="icon-clock"></i>{{post.timestamp|date:"D m Y"}}</div>
+                    <div class="comments meta-last"><i class="icon-comment"></i>{{post.comments.count}}</div>
+                  </footer>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+          <h2>sorry we dont have what you are looking for</h2>
+  {% endif %}
+            </div>
+  
+            <!-- Pagination -->
+  
+            <!-- <nav aria-label="Page navigation example">
+              <ul class="pagination pagination-template d-flex justify-content-center">
+                <li class="page-item"><a href="#" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+                <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                <li class="page-item"><a href="#" class="page-link">3</a></li>
+                <li class="page-item"><a href="#" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+              </ul>
+            </nav> -->
+        
+          </div>
+        </main>
+        <aside class="col-lg-4">
+          <!-- Widget [Search Bar Widget]-->
+          <div class="widget search">
+            <header>
+              <h3 class="h6">Search the blog</h3>
+            </header>
+            <form  action="{% url 'home:search' %}"class="search-form">
+              <div class="form-group">
+                <input type="search" name="q" placeholder="What are you looking for?">
+                <button type="submit" class="submit"><i class="icon-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <!-- Widget [Latest Posts Widget]        -->
+          <div class="widget latest-posts">
+            <header>
+              <h3 class="h6">Latest Posts</h3>
+            </header>
+            {% for post in latest %}
+            <div class="blog-posts"><a href="{{post.get_absolute_url}}">
+                <div class="item d-flex align-items-center">
+                  <div class="image"><img src="{{post.image.url}}" alt="..." class="img-fluid"></div>
+                  <div class="title"><strong>{{post.title}}</strong>
+                    <div class="d-flex align-items-center">
+                      <div class="views"><i class="icon-eye"></i> {{post.views_count}}</div>
+                      <div class="comments"><i class="icon-comment"></i>{{post.comments.count}}</div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              </div>
+              {% endfor %}
+          </div>
+          <!-- Widget [Categories Widget]-->
+          <div class="widget categories">
+            <header>
+              <h3 class="h6">Categories</h3>
+            </header>
+            {% for cat in category_count %}
+            <div class="item d-flex justify-content-between"><a href="#">{{cat.category__title}}</a><span>{{cat.category__count}}</span></div>
+              {% endfor %}
+          </div>
+          <!-- Widget [Tags Cloud Widget]-->
+       
+        </aside>
+      </div>
+    </div>
+  {% endblock %}
