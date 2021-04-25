@@ -150,7 +150,7 @@ CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'height': 300,
-        'width': 600,
+        'width': "auto",
 },
 }
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -218,8 +218,8 @@ SOCIALACCOUNT_PROVIDERS = {
     # (``socialaccount`` app) containing the required client
     # credentials, or list them here:
     'APP': {
-        'client_id':"477657133359890",
-        'secret':"d00f1aff08cf0bd52f55aad2d8c34c4e",
+        'client_id':"921089662076076",
+        'secret':"ffc5dfcc38412920e42061ebe41de32e",
         'key': '',
        
     }
@@ -230,7 +230,7 @@ SOCIALACCOUNT_PROVIDERS = {
     # credentials, or list them here:
     'APP': {
         'client_id':"b1de9812545ccd788c48",
-        'secret': "ecc385557e7740c549c40d82ca5c0d9f5eeae13b",
+        'secret': "a197ec4d8f2021c3cabca483131c7605c337d310",
         'key': '',
        
     }
