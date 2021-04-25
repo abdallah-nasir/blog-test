@@ -9,11 +9,11 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     #Django allauth
-    path('accounts/', include('allauth.urls')),
     path("",include("BlogApp.urls",namespace="home")),
     path("marketing/",include("marketing.urls",namespace="marketing")),
     #this is the TextEditor
     path('ckeditor/', include('ckeditor_uploader.urls')),
+     path('accounts/', include('allauth.urls')),
 
 ]
 

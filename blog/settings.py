@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os
+
 from pathlib import Path
 import django_heroku
 import dj_database_url #setup the database for heroku
@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  str(os.getenv('SECRET_KEY'))
+SECRET_KEY = 'django-insecure-+gk@1cg2u8wtw2j)h4t@9*u$4^vlm&gq+4+ntf4zo*x))0&664'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -158,7 +158,7 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'abdullahnasser6@gmail.com'
-EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+EMAIL_HOST_PASSWORD = "bbvpxmxneyglgqzt"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL= False
 EMAIL_PORT = '587'
@@ -208,8 +208,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': str(os.getenv('gooel_client_id')),
-            'secret':  str(os.getenv('google_secret')),
+            'client_id': "326442742942-o8limr2gj0mbdhh84hdm5grbvtko53ti.apps.googleusercontent.com",
+            'secret':  "2Flui_vF0B8ctJYPg4a-l1d1",
             'key': ''
         }
     },
@@ -218,8 +218,8 @@ SOCIALACCOUNT_PROVIDERS = {
     # (``socialaccount`` app) containing the required client
     # credentials, or list them here:
     'APP': {
-        'client_id':str(os.getenv('facebook_client_id')),
-        'secret':str(os.getenv('facebook_secret')),
+        'client_id':"477657133359890",
+        'secret':"d00f1aff08cf0bd52f55aad2d8c34c4e",
         'key': '',
        
     }
@@ -229,8 +229,8 @@ SOCIALACCOUNT_PROVIDERS = {
     # (``socialaccount`` app) containing the required client
     # credentials, or list them here:
     'APP': {
-        'client_id':str(os.getenv('git_client_id')),
-        'secret':str(os.getenv('git_secret')),
+        'client_id':"b1de9812545ccd788c48",
+        'secret': "ecc385557e7740c549c40d82ca5c0d9f5eeae13b",
         'key': '',
        
     }
