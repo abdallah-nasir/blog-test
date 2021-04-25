@@ -9,11 +9,15 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 import django_heroku
 import dj_database_url #setup the database for heroku
 from decouple import config
+
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+gk@1cg2u8wtw2j)h4t@9*u$4^vlm&gq+4+ntf4zo*x))0&664'
+SECRET_KEY =  str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -154,15 +158,39 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'abdullahnasser6@gmail.com'
-EMAIL_HOST_PASSWORD = "bbvpxmxneyglgqzt"
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL= False
 EMAIL_PORT = '587'
 
 #Django allauth
 SITE_ID = 1
+ACCOUNT_CONFIRM_EMAIL_ON_GET =True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
+ACCOUNT_AUTHENTICATION_METHOD = ("username_email")
+ACCOUNT_EMAIL_REQUIRED =True
+ACCOUNT_EMAIL_VERIFICATION ="mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX ="Site"
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT =2
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT =120
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION =True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE =True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET =True
+LOGIN_REDIRECT_URL ="/"
+ACCOUNT_LOGOUT_REDIRECT_URL ="/"
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE =True
+ACCOUNT_USERNAME_VALIDATORS = 'BlogApp.validators.custom_username_validators'
+ACCOUNT_USER_MODEL_EMAIL_FIELD ="email"
+ACCOUNT_FORMS ={"signup":"BlogApp.forms.MyCustomSignupForm",
 
-
+  }
+ACCOUNT_SESSION_REMEMBER =True
+#social accounts
+SOCIALACCOUNT_AUTO_SIGNUP =True
+SOCIALACCOUNT_EMAIL_VERIFICATION =ACCOUNT_EMAIL_VERIFICATION
+SOCIALACCOUNT_QUERY_EMAIL =ACCOUNT_EMAIL_REQUIRED
+SOCIALACCOUNT_STORE_TOKENS =True
 AUTHENTICATION_BACKENDS = [
 
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -172,6 +200,44 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 
 ]
+  
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': str(os.getenv('gooel_client_id')),
+            'secret':  str(os.getenv('google_secret')),
+            'key': ''
+        }
+    },
+    'facebook': {
+    # For each OAuth based provider, either add a ``SocialApp``
+    # (``socialaccount`` app) containing the required client
+    # credentials, or list them here:
+    'APP': {
+        'client_id':str(os.getenv('facebook_client_id')),
+        'secret':str(os.getenv('facebook_secret')),
+        'key': '',
+       
+    }
+},
+   'github': {
+    # For each OAuth based provider, either add a ``SocialApp``
+    # (``socialaccount`` app) containing the required client
+    # credentials, or list them here:
+    'APP': {
+        'client_id':str(os.getenv('git_client_id')),
+        'secret':str(os.getenv('git_secret')),
+        'key': '',
+       
+    }
+}
+
+
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
