@@ -13,7 +13,7 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col col-lg-6 col-sm-12">
+    <div class="col col-lg-12 col-md-12 col-sm-4">
 
 
       <h1>{% trans "Sign In" %}</h1>
@@ -26,10 +26,10 @@ of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a
 for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 
-
- 
+</div>
+</div>
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-    </div>  
+      
  
 
 
@@ -38,11 +38,11 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
   
     
-<div class="col col-lg-6 col-sm-12">
 
 
+  <div class="col col-lg-6  col-sm-12">
   {% include "socialaccount/snippets/login_extra.html" %}
-
+  
   {% else %}
   <p>{% blocktrans %}If you have not created an account yet, then please
   <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
@@ -64,7 +64,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 </div>
 
     </div>
-  </div>
+ 
     
 
 
