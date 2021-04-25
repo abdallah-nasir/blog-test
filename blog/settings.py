@@ -15,8 +15,8 @@ import django_heroku
 import dj_database_url #setup the database for heroku
 from decouple import config
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -244,12 +244,13 @@ SOCIALACCOUNT_PROVIDERS = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT= os.path.join(BASE_DIR, 'static')
+STATIC_ROOT= os.path.join(BASE_DIR,'static')
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT =os.path.join(BASE_DIR, 'media')
+
+MEDIA_ROOT = BASE_DIR/"media"
 STATICFILES_DIRS=[
-   os.path.join(BASE_DIR, 'static_in_env'),
+   os.path.join(BASE_DIR,'static_in_env'),
 ]
 
 
