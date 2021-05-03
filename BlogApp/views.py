@@ -213,7 +213,7 @@ def post_vote_down(request,id):
             messages.success(request,"you must login to Vote")
             return redirect("home:post",id=post.id)  
     else:
-        messages.success(request,"youcant vote for your post")
+        messages.success(request,"you cant vote for your post")
         return redirect("home:post",id=post.id)  
 
 def blog(request):
@@ -232,6 +232,7 @@ def blog(request):
   
     return render(request,"blog.html",context)
 
+
 @login_required()
 def profile(request,id):
     profile=get_object_or_404(Author,id=id)
@@ -239,15 +240,16 @@ def profile(request,id):
         raise Http404
     form=ProfileUser(request.POST or None ,request.FILES or None,instance=request.user)
     if form.is_valid():
-        i = EmailAddress.objects.get(user_id=request.user.id)
-        if form.cleaned_data["email"].lower() != i.email.lower():
-            EmailAddress.objects.update(user_id=request.user.id,email=form.cleaned_data["email"],primary=False,verified=False)
+        my_email=EmailAddress.objects.get(user=request.user)
+        my_email.email,my_email.primary,my_email.verified = form.cleaned_data["email"],False,False
+        my_email.save()
         if form.cleaned_data["image"]:
             profile.image=form.cleaned_data["image"]
             profile.save()
         form.save()
         messages.success(request,"your profile has been updated")
-        return redirect(reverse("account_login"))
+        return redirect(reverse("home:profile",kwargs={"id":id}))
+        # return redirect(reverse("account_login"))
     context={"profile":profile,"form":form}
     return render(request,"profile.html",context)
     ## Admin Area

@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+gk@1cg2u8wtw2j)h4t@9*u$4^vlm&gq+4+ntf4zo*x))0&664'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -105,8 +105,8 @@ DATABASES = {
     }
 }
 
-DATABASE_URL="postgres://dckejeheevvcfx:74f6d68d56b04789ed9be1ac5ae80525fc33b4b9697ea3243e02d1b67f9ce9bd@ec2-34-225-167-77.compute-1.amazonaws.com:5432/d6vkcutlkikgcl"
-DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+# DATABASE_URL="postgres://dckejeheevvcfx:74f6d68d56b04789ed9be1ac5ae80525fc33b4b9697ea3243e02d1b67f9ce9bd@ec2-34-225-167-77.compute-1.amazonaws.com:5432/d6vkcutlkikgcl"
+# DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
 
 
@@ -219,8 +219,8 @@ SOCIALACCOUNT_PROVIDERS = {
     # (``socialaccount`` app) containing the required client
     # credentials, or list them here:
     'APP': {
-        'client_id':"921089662076076",
-        'secret':"ffc5dfcc38412920e42061ebe41de32e",
+        'client_id':config("facebook_client_id")
+        'secret':config("facebook_secret"),
         'key': '',
        
     }

@@ -4,6 +4,7 @@ from .models import Comments,Post,Category,Author,User
 from allauth.account.forms import SignupForm,AddEmailForm
 from django.forms.widgets import CheckboxSelectMultiple
 from django.contrib.auth.forms import UserCreationForm
+from allauth.account.models import EmailAddress 
 
 CATS = (
     ('Art', 'Art'),
@@ -72,6 +73,11 @@ class ProfileUser(UserCreationForm):
     image=forms.ImageField(required=False)
     class Meta:
         model=User
-        fields=["first_name","last_name","email","password1","password2"]
+        fields=["first_name","last_name","email"]
 
-
+    def clean_email(self):
+        my_email=User.objects.get(id=self.instance.id)
+        email_form = self.cleaned_data['email'].lower()
+        if EmailAddress.objects.filter(email=email_form).exists() and email_form != my_email.email.lower() :
+            raise forms.ValidationError(f"{email_form} is not valid")
+        return email_form
