@@ -159,7 +159,7 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'abdullahnasser6@gmail.com'
-EMAIL_HOST_PASSWORD = "bbvpxmxneyglgqzt"
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL= False
 EMAIL_PORT = '587'
@@ -209,8 +209,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': "326442742942-o8limr2gj0mbdhh84hdm5grbvtko53ti.apps.googleusercontent.com",
-            'secret':  "2Flui_vF0B8ctJYPg4a-l1d1",
+            'client_id': config("google_client_id"),
+            'secret': config("google_secret"),
             'key': ''
         }
     },
@@ -219,7 +219,7 @@ SOCIALACCOUNT_PROVIDERS = {
     # (``socialaccount`` app) containing the required client
     # credentials, or list them here:
     'APP': {
-        'client_id':config("facebook_client_id")
+        'client_id':config("facebook_client_id"),
         'secret':config("facebook_secret"),
         'key': '',
        
@@ -230,8 +230,8 @@ SOCIALACCOUNT_PROVIDERS = {
     # (``socialaccount`` app) containing the required client
     # credentials, or list them here:
     'APP': {
-        'client_id':"b1de9812545ccd788c48",
-        'secret': "a197ec4d8f2021c3cabca483131c7605c337d310",
+        'client_id':config("git_client_id"),
+        'secret': config("git_secret"),
         'key': '',
        
     }
